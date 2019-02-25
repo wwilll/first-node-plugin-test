@@ -20,13 +20,23 @@
         throw new Error("This environment was not anticipated by myPlugin,Please file a bug.");
     }
 })(function () {
-  function test() {
-      return {
-        print: print
-      }
-  }
-  function print(words) {
-      console.log('test plugin print: ' + words);
-  }
-  return test();
+    function test() {
+        return {
+            print,
+            getExactTypeOfData
+        }
+    }
+    function print(words) {
+        console.log('test plugin print: ' + words);
+    }
+    function getExactTypeOfData(element, type) {
+        if (typeof element === 'symbol') {
+            return type === 'symbol' || 'symbol';
+        } else {
+            var str = Object.prototype.toString.call(element);
+            var strType = str.substring(8, str.length - 1).toLowerCase();
+            return strType === type || strType;
+        }
+    }
+    return test();
 })
